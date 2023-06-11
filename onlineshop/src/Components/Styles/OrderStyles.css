@@ -1,0 +1,26 @@
+.order {
+	padding: 40px;
+	margin: 20px 0;
+	border: 1px solid lightgray;
+	background-color: white;
+	position: relative;
+}
+
+.orderid {
+	position: relative;
+	top: 40px;
+	right: 20px;
+}
+
+.ordertotal {
+	font-weight: 500;
+	text-align: right;
+}
+
+.orders {
+	padding: 20px 80px;
+}
+
+.orders > h2 {
+	margin: 30px 0;
+}

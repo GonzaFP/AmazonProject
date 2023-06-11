@@ -1,0 +1,25 @@
+.subheader{
+ background-color: #1c242c;
+ color: white;
+}
+.menu{
+ display: flex;
+ cursor: pointer;
+ padding: 10px;
+}
+h4{
+ margin-top: 3px;
+}
+
+ul{
+ list-style-type: none;
+}
+.category{
+ color: white;
+}
+.hide{
+ display: none;
+}
+.show{
+ display: block;
+}

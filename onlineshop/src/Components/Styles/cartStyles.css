@@ -1,0 +1,51 @@
+.bannerads {
+	width: 100%;
+	margin-bottom: 10px;
+}
+.cart {
+	display: flex;
+	padding: 20px;
+	background-color: white;
+	height: max-content;
+}
+
+.title {
+	padding: 10px;
+	margin-right: 10px;
+	border-bottom: 1px solid lightgray;
+}
+
+.detailsContainer {
+	display: grid;
+	grid-template-columns: 0.2fr 0.4fr;
+	margin: 20px 0 30px 20px;
+}
+
+.detailsImage {
+	width: 150px;
+	object-fit: contain;
+}
+.operations {
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+button {
+	background-color: #f0c14b;
+	border-color: #a88734 #9c7e31 #846a29;
+	padding: 5px 30px;
+	border-radius: 3px;
+}
+
+.operator {
+	color: #f0c14b;
+	margin: 0 10px 0 0;
+}
+.remove {
+	margin-left: 10px;
+}
+.price {
+	margin-top: 10px;
+	font-size: 20px;
+}
