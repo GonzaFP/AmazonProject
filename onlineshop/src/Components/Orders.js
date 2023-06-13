@@ -9,24 +9,25 @@ function Orders() {
 	const [orders, setOrders] = useState([]);
 
 	useEffect(() => {
-		if (user) {
-			db.collection("users")
-				.doc(user?.uid)
-				.collection("orders")
-				.orderBy("created", "desc")
-				.onSnapshot((snapshot) => {
-					setOrders(
-						snapshot.docs.map((doc) => {
-							return {
-								id: doc.id,
-								data: doc.data(),
-							};
-						})
-					);
-				});
-		} else {
-			setOrders([]);
-		}
+		console.log(orders);
+		// if (user) {
+		// 	db.collection("users")
+		// 		.doc(user?.uid)
+		// 		.collection("orders")
+		// 		.orderBy("created", "desc")
+		// 		.onSnapshot((snapshot) => {
+		// 			setOrders(
+		// 				snapshot.docs.map((doc) => {
+		// 					return {
+		// 						id: doc.id,
+		// 						data: doc.data(),
+		// 					};
+		// 				})
+		// 			);
+		// 		});
+		// } else {
+		// 	setOrders([]);
+		// }
 	}, [user]);
 	return (
 		<div className="orders">
@@ -38,7 +39,7 @@ function Orders() {
 
 				<h4 className="ordertotal">
 					{" "}
-					Order Total: {orders.data.amount / 100}
+					{/* Order Total: {orders.data.amount / 100} */}
 				</h4>
 			</div>
 		</div>

@@ -7,6 +7,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "../axios";
 import { EmptyCart } from "../Contexts/dispatchContext";
 import { db } from "../firebase";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 function Checkout() {
 	const navigate = useNavigate();
@@ -27,50 +28,63 @@ function Checkout() {
 		return Total + nextAmount.price * nextAmount.qty;
 	}, 0);
 
-	useEffect(() => {
-		const getClientSecret = async () => {
-			const response = await axios.post(
-				`/checkout/create?/total=${Total * 100}`
-			);
-			setClientSecret(response.data.clientSecret);
-		};
-		getClientSecret();
-	}, [cartItems]);
-
-	console.log("client secret", clientSecret);
-
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		setProcessing(true);
-		const payload = await stripe
-			.confirmCardPayment(clientSecret, {
-				payment_method: {
-					card: elements.getElement(CardElement),
-				},
-			})
-			.then(({ paymentIntent }) => {
-				setSuccess(true);
-				setProcessing(false);
-				setErrors(null);
-				db.collection("users")
-					.doc(user?.uid)
-					.collection("orders")
-					.doc(paymentIntent.id)
-					.set({
-						cart: cartItems,
-						amount: paymentIntent.amount,
-						created: paymentIntent.created,
-					});
 
-				dispatch(EmptyCart());
-				navigate("/orders", { replace: true });
-			});
+		await addDoc(collection(db, "orders"), {
+			cart: cartItems,
+			amount: Total,
+			userid: user?.uid,
+			created: Date.now(),
+		});
+
+		console.log("data successful");
 	};
 
-	const handleChange = (event) => {
-		setErrors(event.error ? event.error.message : "");
-		setDisabled(event.empty);
-	};
+	// useEffect(() => {
+	// 	const getClientSecret = async () => {
+	// 		const response = await axios.post(
+	// 			`/checkout/create?/total=${Total * 100}`
+	// 		);
+	// 		setClientSecret(response.data.clientSecret);
+	// 	};
+	// 	getClientSecret();
+	// }, [cartItems]);
+
+	// console.log("client secret", clientSecret);
+
+	// const handleSubmit = async (event) => {
+	// 	event.preventDefault();
+	// 	setProcessing(true);
+	// 	const payload = await stripe
+	// 		.confirmCardPayment(clientSecret, {
+	// 			payment_method: {
+	// 				card: elements.getElement(CardElement),
+	// 			},
+	// 		})
+	// 		.then(({ paymentIntent }) => {
+	// 			setSuccess(true);
+	// 			setProcessing(false);
+	// 			setErrors(null);
+	// 			db.collection("users")
+	// 				.doc(user?.uid)
+	// 				.collection("orders")
+	// 				.doc(paymentIntent.id)
+	// 				.set({
+	// 					cart: cartItems,
+	// 					amount: paymentIntent.amount,
+	// 					created: paymentIntent.created,
+	// 				});
+
+	// 			dispatch(EmptyCart());
+	// 			navigate("/orders", { replace: true });
+	// 		});
+	// };
+
+	// const handleChange = (event) => {
+	// 	setErrors(event.error ? event.error.message : "");
+	// 	setDisabled(event.empty);
+	// };
 
 	return (
 		<div className="checkout">
@@ -110,13 +124,10 @@ function Checkout() {
 					</div>
 					<div className="paydetails">
 						<form onSubmit={handleSubmit}>
-							<CardElement onChange={handleChange} />
+							<CardElement />
 							<div className="pay">
 								<h4>Order Total: $ {Total}</h4>
-								<button
-									disabled={
-										processing || disabled || success
-									}>
+								<button>
 									<span>
 										{processing ? "Processing" : "Buy Now"}
 									</span>
