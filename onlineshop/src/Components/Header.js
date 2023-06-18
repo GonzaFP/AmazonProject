@@ -5,8 +5,10 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { auth } from "../firebase";
-import { logout } from "../Contexts/dispatchContext";
+import { EmptyCart, logout } from "../Contexts/dispatchContext";
 import { signOut } from "firebase/auth";
+import { db } from "../firebase";
+import { setDoc, doc } from "firebase/firestore";
 
 function Header() {
 	const navigate = useNavigate();
@@ -17,8 +19,15 @@ function Header() {
 	}, 0);
 
 	const handleAuth = async () => {
-		await signOut(auth);
-		dispatch(logout());
+		if (user) {
+			await setDoc(doc(db, "cart", user?.id), {
+				cart: cartItems,
+				user: user,
+			});
+			await signOut(auth);
+			dispatch(logout());
+			dispatch(EmptyCart());
+		}
 	};
 
 	return (

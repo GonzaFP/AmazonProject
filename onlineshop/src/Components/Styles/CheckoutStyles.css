@@ -25,3 +25,18 @@
 .paydetails {
 	flex: 0.8;
 }
+.addressItem {
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+.addressItem > input {
+	width: 400px;
+	height: 20px;
+	margin-top: 5px;
+	outline: none;
+	border: 2px solid lightgray;
+	border-radius: 5px;
+}
+.span {
+	color: red;
+}

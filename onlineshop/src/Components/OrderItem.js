@@ -1,6 +1,6 @@
 import React from "react";
-import moment from "moment";
 import CartItems from "./CartItems";
+import moment from "moment";
 
 function OrderItem({ order }) {
 	const hideButton = true;
@@ -8,15 +8,40 @@ function OrderItem({ order }) {
 		<div className="orderitem">
 			<h2>Order</h2>
 			<p>
-				{moment.unix(order.data.created).format("MMMMM Do YYYY h:mma")}
+				Date created:{" "}
+				<strong>
+					{moment
+						.unix(order.timestamp)
+						.format("MMMM Do YYYY, h:mm:ss a")}
+				</strong>
 			</p>
 			<p className="orderid">
-				<small>{order.id}</small>
+				Order Id:{" "}
+				<strong>
+					<small>{order.created}</small>
+				</strong>
 			</p>
 
-			{order.data.cartItems.map((item, index) => {
-				<CartItems key={index} item={item} hideButton={hideButton} />;
+			<div className="orderaddress">
+				<h4>Contact Information</h4>
+				<p> Name: {order.name}.</p>
+				<p>Email: {order.email}.</p>
+				<p>Address: {order.address}</p>
+			</div>
+
+			{order.cart.map((item, index) => {
+				return (
+					<CartItems
+						key={index}
+						item={item}
+						hideButton={hideButton}
+					/>
+				);
 			})}
+			<h4 className="ordertotal">
+				{" "}
+				Order Total: <strong>$ {order.amount}</strong>
+			</h4>
 		</div>
 	);
 }

@@ -1,0 +1,52 @@
+[debug] [2023-06-13T16:07:23.637Z] ----------------------------------------------------------------------
+[debug] [2023-06-13T16:07:23.644Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\User\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init hosting
+[debug] [2023-06-13T16:07:23.645Z] CLI Version:   12.3.1
+[debug] [2023-06-13T16:07:23.646Z] Platform:      win32
+[debug] [2023-06-13T16:07:23.647Z] Node Version:  v18.15.0
+[debug] [2023-06-13T16:07:23.650Z] Time:          Tue Jun 13 2023 19:07:23 GMT+0300 (East Africa Time)
+[debug] [2023-06-13T16:07:23.651Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-06-13T16:07:23.661Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2023-06-13T16:07:23.806Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-06-13T16:07:23.810Z] > authorizing via signed-in user (gertrudephiona@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\User\AmazonProject\onlineshop
+
+[debug] [2023-06-13T16:07:24.588Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2023-06-13T16:07:24.591Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2023-06-13T16:07:39.170Z] > refreshing access token with scopes: []
+[debug] [2023-06-13T16:07:39.175Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-06-13T16:07:39.175Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-06-13T16:07:40.014Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-06-13T16:07:40.015Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-06-13T16:07:40.349Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2023-06-13T16:07:41.334Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2023-06-13T16:07:41.334Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project e-commercesite-12cac (E-commerceSite) 
+[info] 
+=== Hosting Setup
+[debug] [2023-06-13T16:11:16.469Z] Error: Command failed: npm install
+    at checkExecSyncError (node:child_process:885:11)
+    at execSync (node:child_process:957:15)
+    at init (C:\Users\User\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\vite\index.js:31:34)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.init (C:\Users\User\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\vite\index.js:15:65)
+    at async doSetup (C:\Users\User\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\features\hosting\index.js:88:13)
+    at async init (C:\Users\User\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\index.js:37:9)
+[error] 
+[error] Error: An unexpected error has occurred.

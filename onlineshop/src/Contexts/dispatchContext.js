@@ -1,17 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 export const initialState = {
 	cartItems: [],
 	user: null,
 };
+
 export const ReducerFunction = createSlice({
 	name: "appReducer",
 	initialState,
 	reducers: {
-		getStoredItems: (state) => {
-			const oldState = JSON.parse(localStorage.getItem("State"));
+		getStoredItems: (state, action) => {
 			return {
-				...state,
-				cartItems: oldState.cartItems,
+				cartItems: action.payload.cart,
+				user: action.payload.user,
 			};
 		},
 
@@ -20,13 +21,13 @@ export const ReducerFunction = createSlice({
 				(item) => item.id === action.payload.id
 			);
 			if (!foundItem) {
-				localStorage.setItem(
-					"State",
-					JSON.stringify({
-						...state,
-						cartItems: [...state.cartItems, action.payload],
-					})
-				);
+				// localStorage.setItem(
+				// 	"State",
+				// 	JSON.stringify({
+				// 		...state,
+				// 		cartItems: [...state.cartItems, action.payload],
+				// 	})
+				// );
 
 				return {
 					...state,
@@ -42,10 +43,10 @@ export const ReducerFunction = createSlice({
 					}
 					return item;
 				});
-				localStorage.setItem(
-					"State",
-					JSON.stringify({ ...state, cartItems: UpdatedCartItems })
-				);
+				// localStorage.setItem(
+				// 	"State",
+				// 	JSON.stringify({ ...state, cartItems: UpdatedCartItems })
+				// );
 				return {
 					...state,
 					cartItems: UpdatedCartItems,
@@ -68,10 +69,10 @@ export const ReducerFunction = createSlice({
 				}
 				return item;
 			});
-			localStorage.setItem(
-				"State",
-				JSON.stringify({ ...state, cartItems: UpdatedCartItems })
-			);
+			// localStorage.setItem(
+			// 	"State",
+			// 	JSON.stringify({ ...state, cartItems: UpdatedCartItems })
+			// );
 			return {
 				...state,
 				cartItems: UpdatedCartItems,
@@ -79,15 +80,15 @@ export const ReducerFunction = createSlice({
 		},
 
 		DeleteItem: (state, action) => {
-			localStorage.setItem(
-				"State",
-				JSON.stringify({
-					...state,
-					cartItems: state.cartItems.filter(
-						(item) => item.id !== action.payload
-					),
-				})
-			);
+			// localStorage.setItem(
+			// 	"State",
+			// 	JSON.stringify({
+			// 		...state,
+			// 		cartItems: state.cartItems.filter(
+			// 			(item) => item.id !== action.payload
+			// 		),
+			// 	})
+			// );
 			return {
 				...state,
 				cartItems: state.cartItems.filter(
@@ -97,6 +98,13 @@ export const ReducerFunction = createSlice({
 		},
 
 		login: (state, action) => {
+			// localStorage.setItem(
+			// 	"State",
+			// 	JSON.stringify({
+			// 		...state,
+			// 		user: action.payload,
+			// 	})
+			// );
 			return {
 				...state,
 				user: action.payload,
@@ -104,12 +112,26 @@ export const ReducerFunction = createSlice({
 		},
 
 		logout: (state) => {
+			// localStorage.setItem(
+			// 	"State",
+			// 	JSON.stringify({
+			// 		...state,
+			// 		user: null,
+			// 	})
+			// );
 			return {
 				...state,
-				user: "",
+				user: null,
 			};
 		},
 		EmptyCart: (state) => {
+			// localStorage.setItem(
+			// 	"State",
+			// 	JSON.stringify({
+			// 		...state,
+			// 		cartItems: [],
+			// 	})
+			// );
 			return {
 				...state,
 				cartItems: [],

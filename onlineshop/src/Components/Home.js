@@ -4,6 +4,7 @@ import Product from "./Product";
 import DoubleProducts from "./doubleProducts";
 import LongProduct from "./longProduct";
 import Slider from "./Slider";
+
 function Home() {
 	const longImages = [
 		"hill",

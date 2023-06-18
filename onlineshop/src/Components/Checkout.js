@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Styles/CheckoutStyles.css";
 import { useSelector, useDispatch } from "react-redux";
 import CartItems from "./CartItems";
 import { Link, useNavigate } from "react-router-dom";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import axios from "../axios";
+import { CardElement } from "@stripe/react-stripe-js";
 import { EmptyCart } from "../Contexts/dispatchContext";
 import { db } from "../firebase";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 function Checkout() {
 	const navigate = useNavigate();
-	const stripe = useStripe();
-	const elements = useElements();
 	const dispatch = useDispatch();
 	const [errors, setErrors] = useState(null);
-	const [disabled, setDisabled] = useState(true);
 	const { cartItems, user } = useSelector((state) => state.mainReducer);
 	const [processing, setProcessing] = useState("");
 	const [success, setSuccess] = useState(false);
-	const [clientSecret, setClientSecret] = useState(true);
+	const [name, setName] = useState(user?.name);
+	const [email, setEmail] = useState(user?.email);
+	const [address, setAddress] = useState("");
 	const number = cartItems.reduce((Total, item) => {
 		return Total + item.qty;
 	}, 0);
@@ -30,61 +28,19 @@ function Checkout() {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-
 		await addDoc(collection(db, "orders"), {
 			cart: cartItems,
 			amount: Total,
-			userid: user?.uid,
+			userid: user?.id,
+			email: email,
+			name: name,
+			address: address,
 			created: Date.now(),
+			timestamp: serverTimestamp(),
 		});
-
-		console.log("data successful");
+		dispatch(EmptyCart());
+		navigate("/orders", { replace: true });
 	};
-
-	// useEffect(() => {
-	// 	const getClientSecret = async () => {
-	// 		const response = await axios.post(
-	// 			`/checkout/create?/total=${Total * 100}`
-	// 		);
-	// 		setClientSecret(response.data.clientSecret);
-	// 	};
-	// 	getClientSecret();
-	// }, [cartItems]);
-
-	// console.log("client secret", clientSecret);
-
-	// const handleSubmit = async (event) => {
-	// 	event.preventDefault();
-	// 	setProcessing(true);
-	// 	const payload = await stripe
-	// 		.confirmCardPayment(clientSecret, {
-	// 			payment_method: {
-	// 				card: elements.getElement(CardElement),
-	// 			},
-	// 		})
-	// 		.then(({ paymentIntent }) => {
-	// 			setSuccess(true);
-	// 			setProcessing(false);
-	// 			setErrors(null);
-	// 			db.collection("users")
-	// 				.doc(user?.uid)
-	// 				.collection("orders")
-	// 				.doc(paymentIntent.id)
-	// 				.set({
-	// 					cart: cartItems,
-	// 					amount: paymentIntent.amount,
-	// 					created: paymentIntent.created,
-	// 				});
-
-	// 			dispatch(EmptyCart());
-	// 			navigate("/orders", { replace: true });
-	// 		});
-	// };
-
-	// const handleChange = (event) => {
-	// 	setErrors(event.error ? event.error.message : "");
-	// 	setDisabled(event.empty);
-	// };
 
 	return (
 		<div className="checkout">
@@ -94,13 +50,40 @@ function Checkout() {
 				</h1>
 				<div className="section">
 					<div className="checkouttitle">
-						<h3>Delivery Address</h3>
+						<h3>Contact Information</h3>
 					</div>
 
 					<div className="address">
-						<p>
-							<span>{user?.name},</span> {user?.email}
-						</p>
+						<div className="addressItem">
+							<h4>
+								Name<span className="span">*</span>
+							</h4>
+							<input
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+							/>
+						</div>
+
+						<div className="addressItem">
+							<h4>
+								Email<span className="span">*</span>
+							</h4>
+							<input
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+							/>
+						</div>
+
+						<div className="addressItem">
+							<h4>
+								Address<span className="span">*</span>
+							</h4>
+							<input
+								value={address}
+								onChange={(e) => setAddress(e.target.value)}
+								required
+							/>
+						</div>
 					</div>
 				</div>
 

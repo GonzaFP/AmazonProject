@@ -2,8 +2,6 @@ import React from "react";
 import { ProductImg } from "./Styles/styles";
 function LongProduct(props) {
 	const baseUrl = "..//assets/";
-	console.log(props.image);
-
 	return (
 		<>
 			<div className="main">

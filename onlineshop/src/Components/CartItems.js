@@ -18,24 +18,37 @@ function CartItems(props) {
 					{price}
 				</p>
 				<div className="operations">
-					<AddCircleIcon
-						className="operator"
-						onClick={() => {
-							dispatch(
-								AddSubQty({ productId: id, operator: "+" })
-							);
-						}}
-					/>
-					<p>{qty}</p>
-					<RemoveCircleIcon
-						className="operator remove"
-						onClick={() => {
-							dispatch(
-								AddSubQty({ productId: id, operator: "-" })
-							);
-						}}
-					/>
+					{!props.hideButton ? (
+						<>
+							<AddCircleIcon
+								className="operator"
+								onClick={() => {
+									dispatch(
+										AddSubQty({
+											productId: id,
+											operator: "+",
+										})
+									);
+								}}
+							/>
+							<p>{qty}</p>
+							<RemoveCircleIcon
+								className="operator remove"
+								onClick={() => {
+									dispatch(
+										AddSubQty({
+											productId: id,
+											operator: "-",
+										})
+									);
+								}}
+							/>
+						</>
+					) : (
+						<h5>Qty: {qty}</h5>
+					)}
 				</div>
+
 				{!props.hideButton && (
 					<button
 						onClick={() => {

@@ -37,7 +37,11 @@ button {
 	padding: 5px 30px;
 	border-radius: 3px;
 }
-
+button:hover {
+	background-color: yellow;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+}
 .operator {
 	color: #f0c14b;
 	margin: 0 10px 0 0;
