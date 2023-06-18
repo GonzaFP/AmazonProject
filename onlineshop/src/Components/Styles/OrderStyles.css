@@ -56,7 +56,8 @@
 	margin-top: 10px;
 }
 
-.signinBtn {
+.signinBtn,
+.noOrders > button {
 	background-color: yellow;
 	border-radius: 5px;
 	border: 1px solid lightgray;
@@ -64,10 +65,15 @@
 	margin-top: 10px;
 }
 
-.signinBtn:hover {
+.signinBtn:hover,
+.noOrders > button:hover {
 	background-color: rgb(247, 195, 63);
 }
 
 .signupBtn:hover {
 	background-color: lightgray;
+}
+.noOrders > h3 {
+	margin-bottom: 10px;
+	font-weight: 100;
 }

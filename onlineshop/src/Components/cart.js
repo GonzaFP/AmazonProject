@@ -9,7 +9,6 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 function Cart() {
 	const navigate = useNavigate();
 	const { cartItems, user } = useSelector((state) => state.mainReducer);
-	const dispatch = useDispatch();
 	return (
 		<div className="cart">
 			<div className="leftside">
@@ -39,7 +38,7 @@ function Cart() {
 									{" "}
 									<Link to="/" className="link">
 										{" "}
-										shop hot deals
+										shop great deals now.
 									</Link>
 								</p>
 								{!user && (

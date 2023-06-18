@@ -52,18 +52,20 @@ function Orders() {
 	return (
 		<div className="orders">
 			<h2>Your Orders</h2>
+
 			<div className="sth">
-				{user ? (
+				{orders.length > 0 ? (
 					orders?.map((order, index) => {
 						return <OrderItem key={index} order={order} />;
 					})
 				) : (
-					<>
-						<h3>You have no orders</h3>
-						<button onClick={() => navigate("/")}>Hot deals</button>
-					</>
+					<div className="noOrders">
+						<h3>You have no orders.</h3>
+						<button onClick={() => navigate("/")}>
+							Shop hot deals
+						</button>
+					</div>
 				)}
-				{}
 			</div>
 		</div>
 	);

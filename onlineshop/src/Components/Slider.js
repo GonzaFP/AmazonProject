@@ -1,33 +1,29 @@
-import React,{useState} from 'react'
-import { SliderData } from './SliderData'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import './Styles/Slider.css'
+import React from "react";
+import { SliderData } from "./SliderData";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-function Slider() {
- const [current, setSlider] = useState(0)
- const length = SliderData.length
- const nextSlide = ()=>{
-  setSlider(current === length - 1? 0: current + 1)
- }
- const prevSlide = ()=>{
-  setSlider(current === 0? length - 1: current - 1)
- }
-  return (
-   <section className='slider'>
-    <ArrowForwardIosIcon className=' prev' onClick={prevSlide}/>
-    <ArrowBackIosIcon className='next' onClick={nextSlide}/>
-    {
-     SliderData.map((slide,index)=>{
-      return (
-       <div className={index === current? 'slide active': 'slide'} key={index}>
-        {index === current && <img src={slide.image} alt='' className='banner'/>}
-       </div>
-      )
-     })
-    }
-    </section>
-  )
+import "./Styles/Slider.css";
+
+function Sliders() {
+	const settings = {
+		dots: false,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+	};
+
+	let SlideData = SliderData.map((slide, index) => {
+		return <img src={slide.image} alt="" key={index} className="banner" />;
+	});
+
+	return (
+		<section className="slider">
+			<Slider {...settings}>{SlideData}</Slider>
+		</section>
+	);
 }
 
-export default Slider
+export default Sliders;

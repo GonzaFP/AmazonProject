@@ -1,25 +1,32 @@
-.subheader{
- background-color: #1c242c;
- color: white;
-}
-.menu{
- display: flex;
- cursor: pointer;
- padding: 10px;
-}
-h4{
- margin-top: 3px;
+.subheader {
+	background-color: #1c242c;
+	color: white;
 }
 
-ul{
- list-style-type: none;
+.menu {
+	display: flex;
+	cursor: pointer;
+	padding: 10px;
+	width: 100px;
 }
-.category{
- color: white;
+
+.menu:hover {
+	border: 1px solid white;
 }
-.hide{
- display: none;
+
+h4 {
+	margin-top: 3px;
 }
-.show{
- display: block;
+
+ul {
+	list-style-type: none;
+}
+.category {
+	color: white;
+}
+.hide {
+	display: none;
+}
+.show {
+	display: block;
 }

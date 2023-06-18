@@ -27,7 +27,9 @@ function SubTotal() {
 			<button
 				className="button"
 				onClick={() => {
-					user ? navigate("/checkout") : navigate("/signin");
+					user && cartItems.length > 0
+						? navigate("/checkout")
+						: !user && navigate("/signin");
 				}}>
 				Proceed to check out
 			</button>

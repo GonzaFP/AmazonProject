@@ -3,7 +3,7 @@ import "./Styles/Home.css";
 import Product from "./Product";
 import DoubleProducts from "./doubleProducts";
 import LongProduct from "./longProduct";
-import Slider from "./Slider";
+import Sliders from "./Slider";
 
 function Home() {
 	const longImages = [
@@ -13,11 +13,23 @@ function Home() {
 		"taylor",
 		"atomic",
 		"daughter",
+		"air",
+		"before",
+		"brief",
+		"diary",
+		"door",
+		"ends",
+		"holly",
+		"lessons",
+		"missing",
+		"secret",
+		"1984",
+		"thief",
 	];
 	return (
 		<div className="home">
 			<div className="homecontainer">
-				<Slider />
+				<Sliders />
 
 				<div className="row">
 					<Product

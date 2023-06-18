@@ -36,7 +36,7 @@ function SignUp() {
 				navigate(-1);
 				dispatch(
 					login({
-						name: user.displayName,
+						name: name,
 						email: user.email,
 						id: user.uid,
 					})

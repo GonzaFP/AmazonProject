@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Cart from "./Components/cart";
 import CategoryProducts from "./Components/CategoryProducts";
 import ProductDetails from "./Components/ProductDetails";
+import SearchResults from "./Components/SearchResults";
 import SignIn from "./Components/SignIn";
 import SignUp from "./Components/SignUp";
 import { auth } from "./firebase";
@@ -55,6 +56,7 @@ function App() {
 			<Route path="/" element={<Layout />}>
 				<Route index element={<Home />} />
 				<Route path="cart" element={<Cart />} />
+				<Route path="search" element={<SearchResults />} />
 				<Route
 					path="products/:productId"
 					element={<ProductDetails />}
