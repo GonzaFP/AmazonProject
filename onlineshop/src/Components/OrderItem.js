@@ -12,7 +12,7 @@ function OrderItem({ order }) {
 				<strong>
 					{moment
 						.unix(order.timestamp)
-						.format("MMMM Do YYYY, h:mm:ss a")}
+						.format("Do MMMM YYYY, hh:mm:ss a")}
 				</strong>
 			</p>
 			<p className="orderid">

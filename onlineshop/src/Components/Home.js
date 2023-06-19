@@ -4,6 +4,7 @@ import Product from "./Product";
 import DoubleProducts from "./doubleProducts";
 import LongProduct from "./longProduct";
 import Sliders from "./Slider";
+import "./Styles/Home.css";
 
 function Home() {
 	const longImages = [
@@ -29,7 +30,7 @@ function Home() {
 	return (
 		<div className="home">
 			<div className="homecontainer">
-				<Sliders />
+				<Sliders className="banner" />
 
 				<div className="row">
 					<Product
@@ -69,9 +70,7 @@ function Home() {
 							subtitle="see more"
 						/>
 					</div>
-				</div>
 
-				<div className="row">
 					<Product
 						id={21}
 						title="New & pre-loved styles"

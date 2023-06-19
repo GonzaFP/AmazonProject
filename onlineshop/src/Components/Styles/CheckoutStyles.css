@@ -11,20 +11,13 @@
 }
 
 .section {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 500px));
 	padding: 20px;
 	margin: 0 20px;
 	border-bottom: 1px solid lightgray;
 }
 
-.checkouttitle {
-	flex: 0.2;
-}
-.address,
-.item,
-.paydetails {
-	flex: 0.8;
-}
 .addressItem {
 	margin-top: 10px;
 	margin-bottom: 5px;

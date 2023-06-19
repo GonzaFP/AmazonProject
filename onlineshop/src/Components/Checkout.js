@@ -92,12 +92,9 @@ function Checkout() {
 						<h3>Review items</h3>
 					</div>
 					<div className="item">
-						<img />
-						<div>
-							{cartItems?.map((item, index) => {
-								return <CartItems key={index} item={item} />;
-							})}
-						</div>
+						{cartItems?.map((item, index) => {
+							return <CartItems key={index} item={item} />;
+						})}
 					</div>
 				</div>
 

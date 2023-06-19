@@ -2,17 +2,23 @@ import React, { useState, useEffect } from "react";
 import "./Styles/OrderStyles.css";
 import { db } from "../firebase";
 import { useSelector } from "react-redux";
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection, orderBy, getDocs, query } from "firebase/firestore";
 import OrderItem from "./OrderItem";
 import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
+
 function Orders() {
 	const { user } = useSelector((state) => state.mainReducer);
 	const [orders, setOrders] = useState([]);
+	const [isLoading, setLoading] = useState(true);
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		<Spinner />;
 		const getOrders = async () => {
-			await getDocs(collection(db, "orders")).then((queryResponse) => {
+			await getDocs(
+				query(collection(db, "orders"), orderBy("timestamp", "desc"))
+			).then((queryResponse) => {
 				const newData = queryResponse.docs.map((doc) => {
 					if (doc.data().userid === user?.id) return doc.data();
 					else {
@@ -23,50 +29,39 @@ function Orders() {
 					return order !== undefined;
 				});
 				setOrders(orderData);
+				setLoading(false);
 			});
-			// docsnap.docs.map((doc) => {
-			// 	doc.data().userid === user.id && setOrders(doc.data());
-			// });
 		};
 		getOrders();
-		// if (user) {
-		// 	db.collection("users")
-		// 		.doc(user?.uid)
-		// 		.collection("orders")
-		// 		.orderBy("created", "desc")
-		// 		.onSnapshot((snapshot) => {
-		// 			setOrders(
-		// 				snapshot.docs.map((doc) => {
-		// 					return {
-		// 						id: doc.id,
-		// 						data: doc.data(),
-		// 					};
-		// 				})
-		// 			);
-		// 		});
-		// } else {
-		// 	setOrders([]);
-		// }
 	}, [user]);
 
-	return (
-		<div className="orders">
-			<h2>Your Orders</h2>
-
-			<div className="sth">
-				{orders.length > 0 ? (
-					orders?.map((order, index) => {
-						return <OrderItem key={index} order={order} />;
-					})
-				) : (
+	const handleDisplay = () => {
+		if (isLoading) {
+			return <Spinner />;
+		} else {
+			if (orders.length > 0) {
+				return orders?.map((order, index) => {
+					return <OrderItem key={index} order={order} />;
+				});
+			} else {
+				return (
 					<div className="noOrders">
 						<h3>You have no orders.</h3>
 						<button onClick={() => navigate("/")}>
 							Shop hot deals
 						</button>
 					</div>
-				)}
-			</div>
+				);
+			}
+		}
+	};
+
+	console.log(handleDisplay());
+	return (
+		<div className="orders">
+			<h2>Your Orders</h2>
+
+			<div>{handleDisplay()}</div>
 		</div>
 	);
 }

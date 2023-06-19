@@ -7,7 +7,7 @@ function LongProduct(props) {
 	const baseUrl = "..//assets/";
 
 	const settings = {
-		dots: false,
+		dots: true,
 		infinite: true,
 		speed: 500,
 		slidesToShow: 6,

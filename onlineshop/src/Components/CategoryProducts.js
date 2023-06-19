@@ -3,9 +3,11 @@ import fetcher from "../fetcher";
 import { useParams } from "react-router-dom";
 import Products from "./Products";
 import "./Styles/productsStyles.css";
+import Spinner from "./Spinner";
 
 function CategoryProducts() {
 	const { categoryId } = useParams();
+	const [isLoading, setLoading] = useState(true);
 	const [categoryProducts, setProducts] = useState({
 		errorMessage: "",
 		data: [],
@@ -15,9 +17,11 @@ function CategoryProducts() {
 		const fetchData = async () => {
 			const response = await fetcher(`products?catId=${categoryId}`);
 			setProducts(response);
+			setLoading(false);
 		};
 		fetchData();
 	}, [categoryId]);
+
 	const newArray = [];
 	const handleData = () => {
 		for (let i = 0; i < categoryProducts.data.length - 1; i += 2) {
@@ -37,28 +41,33 @@ function CategoryProducts() {
 	let productdata = categoryProducts.errorMessage
 		? `Error: ${categoryProducts.errorMessage}`
 		: newArray;
+
 	return (
 		<>
 			<div>Results</div>
 			<div className="rows">
-				{productdata.map((item) => {
-					if (item.length === 2) {
-						const [item1, item2] = item;
-						return (
-							<div className="row">
-								<Products item={item1} />
-								<Products item={item2} />
-							</div>
-						);
-					} else {
-						const [item1] = item;
-						return (
-							<div className="row">
-								<Products item={item1} />
-							</div>
-						);
-					}
-				})}
+				{isLoading ? (
+					<Spinner />
+				) : (
+					productdata.map((item) => {
+						if (item.length === 2) {
+							const [item1, item2] = item;
+							return (
+								<div className="row">
+									<Products item={item1} />
+									<Products item={item2} />
+								</div>
+							);
+						} else {
+							const [item1] = item;
+							return (
+								<div className="row">
+									<Products item={item1} />
+								</div>
+							);
+						}
+					})
+				)}
 			</div>
 		</>
 	);

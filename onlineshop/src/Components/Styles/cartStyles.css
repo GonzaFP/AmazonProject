@@ -3,7 +3,8 @@
 	margin-bottom: 10px;
 }
 .cart {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
 	padding: 20px;
 	background-color: white;
 	height: max-content;
@@ -17,7 +18,7 @@
 
 .detailsContainer {
 	display: grid;
-	grid-template-columns: 0.2fr 0.4fr;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 250px));
 	margin: 20px 0 30px 20px;
 }
 

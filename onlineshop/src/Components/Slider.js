@@ -3,7 +3,6 @@ import { SliderData } from "./SliderData";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 import "./Styles/Slider.css";
 
 function Sliders() {
@@ -20,7 +19,7 @@ function Sliders() {
 	});
 
 	return (
-		<section className="slider">
+		<section>
 			<Slider {...settings}>{SlideData}</Slider>
 		</section>
 	);
