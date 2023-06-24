@@ -8,7 +8,7 @@ there is a check-out form to fill. This project was built with the aim of practi
 * Redux and Redux toolkit.
 * Working with json-server.
 
-#Setup
+# Setup
 git clone https://github.com/GonzaFP/AmazonProject.git
 npm install
 npm run dev
