@@ -1,23 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Styles/CheckoutStyles.css";
 import { useSelector, useDispatch } from "react-redux";
 import CartItems from "./CartItems";
 import { Link, useNavigate } from "react-router-dom";
-import { CardElement } from "@stripe/react-stripe-js";
+import {
+	CardElement,
+	AddressElement,
+	PaymentElement,
+	useStripe,
+	useElements,
+} from "@stripe/react-stripe-js";
 import { EmptyCart } from "../Contexts/dispatchContext";
 import { db } from "../firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 function Checkout() {
+	const stripe = useStripe();
+	const elements = useElements();
+	const [message, setMessage] = useState(null);
+	const [ErrorMessage, setErrorMessage] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [errors, setErrors] = useState(null);
 	const { cartItems, user } = useSelector((state) => state.mainReducer);
-	const [processing, setProcessing] = useState("");
-	const [success, setSuccess] = useState(false);
-	const [name, setName] = useState(user?.name);
+	const [diabled, setdisabled] = useState(false);
 	const [email, setEmail] = useState(user?.email);
-	const [address, setAddress] = useState("");
+	const [shippingaddress, setAddress] = useState("");
+
 	const number = cartItems.reduce((Total, item) => {
 		return Total + item.qty;
 	}, 0);
@@ -26,20 +35,86 @@ function Checkout() {
 		return Total + nextAmount.price * nextAmount.qty;
 	}, 0);
 
+	const handleError = (error) => {
+		setIsLoading(false);
+		setErrorMessage(error.message);
+	};
+	const handleChange = (event) => {
+		if (event.complete) {
+			setAddress(event.value);
+		}
+	};
+
+	useEffect(() => {
+		if (!stripe) {
+			return;
+		}
+
+		const clientSecret = new URLSearchParams(window.location.search).get(
+			"payment_intent_client_secret"
+		);
+
+		if (!clientSecret) {
+			return;
+		}
+
+		stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+			switch (paymentIntent.status) {
+				case "succeeded":
+					setMessage("Payment succeeded!");
+					break;
+				case "processing":
+					setMessage("Your payment is processing.");
+					break;
+				case "requires_payment_method":
+					setMessage(
+						"Your payment was not successful, please try again."
+					);
+					break;
+				default:
+					setMessage("Something went wrong.");
+					break;
+			}
+		});
+	}, [stripe]);
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		// !if stripe has not loaded.
+		if (!stripe || !elements) {
+			setdisabled(true);
+			return;
+		}
+
+		setIsLoading(true);
 		await addDoc(collection(db, "orders"), {
 			cart: cartItems,
 			amount: Total,
 			userid: user?.id,
 			email: email,
-			name: name,
-			address: address,
+			name: shippingaddress.name,
+			phone: shippingaddress.phone,
+			city: shippingaddress.address.city,
+			country: shippingaddress.address.country,
+			address: shippingaddress.address.line1,
 			created: Date.now(),
 			timestamp: serverTimestamp(),
 		});
 		dispatch(EmptyCart());
-		navigate("/orders", { replace: true });
+		// navigate("/orders", { replace: true });
+		const { error } = await stripe.confirmPayment({
+			elements,
+			confirmParams: {
+				// Make sure to change this to your payment completion page
+				return_url: "http://localhost:3000/orders",
+			},
+		});
+
+		if (error.type === "card_error" || error.type === "validation_error") {
+			setMessage(error.message);
+		} else {
+			setMessage("An unexpected error occurred.");
+		}
 	};
 
 	return (
@@ -54,36 +129,21 @@ function Checkout() {
 					</div>
 
 					<div className="address">
-						<div className="addressItem">
-							<h4>
-								Name<span className="span">*</span>
-							</h4>
-							<input
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-							/>
-						</div>
-
-						<div className="addressItem">
-							<h4>
-								Email<span className="span">*</span>
-							</h4>
-							<input
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-						</div>
-
-						<div className="addressItem">
-							<h4>
-								Address<span className="span">*</span>
-							</h4>
-							<input
-								value={address}
-								onChange={(e) => setAddress(e.target.value)}
-								required
-							/>
-						</div>
+						<AddressElement
+							options={{
+								mode: "shipping",
+								allowedCountries: ["UG", "KE", "TZ"],
+								fields: {
+									phone: "always",
+								},
+								validation: {
+									phone: {
+										required: "always",
+									},
+								},
+							}}
+							onChange={handleChange}
+						/>
 					</div>
 				</div>
 
@@ -104,16 +164,22 @@ function Checkout() {
 					</div>
 					<div className="paydetails">
 						<form onSubmit={handleSubmit}>
-							<CardElement />
+							<PaymentElement />
 							<div className="pay">
 								<h4>Order Total: $ {Total}</h4>
-								<button>
-									<span>
-										{processing ? "Processing" : "Buy Now"}
-									</span>
+
+								<button
+									type="submit"
+									diabled={
+										isLoading ||
+										!stripe ||
+										!elements ||
+										diabled
+									}>
+									Buy now
 								</button>
 							</div>
-							{errors && <div>{errors}</div>}
+							{ErrorMessage && <div>{ErrorMessage}</div>}
 						</form>
 					</div>
 				</div>

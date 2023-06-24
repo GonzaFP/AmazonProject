@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Styles/OrderStyles.css";
 import { db } from "../firebase";
 import { useSelector } from "react-redux";
-import { collection, orderBy, getDocs, query } from "firebase/firestore";
+import { collection, orderBy, getDocs, query, where } from "firebase/firestore";
 import OrderItem from "./OrderItem";
 import { useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
@@ -17,18 +17,16 @@ function Orders() {
 		<Spinner />;
 		const getOrders = async () => {
 			await getDocs(
-				query(collection(db, "orders"), orderBy("timestamp", "desc"))
+				query(
+					collection(db, "orders"),
+					where("userid", "==", user?.id),
+					orderBy("timestamp", "desc")
+				)
 			).then((queryResponse) => {
 				const newData = queryResponse.docs.map((doc) => {
-					if (doc.data().userid === user?.id) return doc.data();
-					else {
-						return;
-					}
+					return doc.data();
 				});
-				const orderData = newData.filter((order) => {
-					return order !== undefined;
-				});
-				setOrders(orderData);
+				setOrders(newData);
 				setLoading(false);
 			});
 		};
@@ -55,8 +53,6 @@ function Orders() {
 			}
 		}
 	};
-
-	console.log(handleDisplay());
 	return (
 		<div className="orders">
 			<h2>Your Orders</h2>

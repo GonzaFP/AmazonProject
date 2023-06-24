@@ -42,7 +42,7 @@ function Cart() {
 									</Link>
 								</p>
 								{!user && (
-									<>
+									<div className="Btns">
 										<button
 											className="signinBtn"
 											onClick={() => navigate("/signin")}>
@@ -53,7 +53,7 @@ function Cart() {
 											onClick={() => navigate("/signup")}>
 											Sign up now
 										</button>
-									</>
+									</div>
 								)}
 							</div>
 						</div>

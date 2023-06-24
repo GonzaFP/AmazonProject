@@ -75,3 +75,23 @@
 	margin-left: 10px;
 	margin-right: 10px;
 }
+
+@media screen and (max-width: 600px) {
+	.logo {
+		width: 55px;
+		margin: 0 10px;
+	}
+	.searchinput {
+		width: 50%;
+	}
+	.block {
+		display: none;
+	}
+	.options {
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+	.option2 {
+		font-size: 10px;
+	}
+}

@@ -54,3 +54,55 @@ button:hover {
 	margin-top: 10px;
 	font-size: 20px;
 }
+
+.cartmessage {
+	display: flex;
+}
+.link {
+	color: rgb(44, 188, 236);
+}
+.link:hover {
+	text-decoration: underline;
+	color: brown;
+}
+
+.icon {
+	font-size: 500px;
+}
+
+.left {
+	margin: 20px;
+}
+.signupBtn {
+	margin-left: 10px;
+	padding: 5px 15px;
+	background-color: white;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	margin-top: 10px;
+}
+
+.signinBtn {
+	background-color: yellow;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+	padding: 8px 10px;
+	margin-top: 10px;
+}
+
+.signinBtn:hover {
+	background-color: rgb(247, 195, 63);
+}
+
+.signupBtn:hover {
+	background-color: lightgray;
+}
+@media screen and (max-width: 600px) {
+	.Btns {
+		display: flex;
+		flex-direction: column;
+	}
+	.signupBtn {
+		margin-left: 0px;
+	}
+}

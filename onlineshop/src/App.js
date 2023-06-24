@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import Layout from "./Layout";
 import Home from "./Components/Home";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Cart from "./Components/cart";
 import CategoryProducts from "./Components/CategoryProducts";
 import ProductDetails from "./Components/ProductDetails";
@@ -9,19 +9,13 @@ import SearchResults from "./Components/SearchResults";
 import SignIn from "./Components/SignIn";
 import SignUp from "./Components/SignUp";
 import { auth } from "./firebase";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login, logout } from "./Contexts/dispatchContext";
-import Checkout from "./Components/Checkout";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+import Check from "./Components/Check";
 import Orders from "./Components/Orders";
 import { db } from "./firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { getStoredItems } from "./Contexts/dispatchContext";
-
-const promise = loadStripe(
-	"pk_test_51NHM1TKegTPnAwbFD6KwJGNfLKiom5az03Pj5UZOcbN9NuS5WOHUC0XwsKOf87oCjYttt1tQfbGRzx8ueAnlNSec00rhQ6ppw9"
-);
 
 function App() {
 	const dispatch = useDispatch();
@@ -38,8 +32,8 @@ function App() {
 				const getCart = async () => {
 					await getDoc(doc(db, "cart", authuser.uid)).then(
 						(queryResponse) => {
-							console.log(queryResponse.data());
-							dispatch(getStoredItems(queryResponse.data()));
+							queryResponse.data() &&
+								dispatch(getStoredItems(queryResponse.data()));
 						}
 					);
 				};
@@ -65,14 +59,7 @@ function App() {
 					path="category/:categoryId"
 					element={<CategoryProducts />}
 				/>
-				<Route
-					path="checkout"
-					element={
-						<Elements stripe={promise}>
-							<Checkout />
-						</Elements>
-					}
-				/>
+				<Route path="checkout" element={<Check />} />
 
 				<Route path="orders" element={<Orders />} />
 			</Route>

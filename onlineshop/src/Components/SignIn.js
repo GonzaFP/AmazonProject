@@ -8,7 +8,6 @@ import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Contexts/dispatchContext";
-import { setDoc, doc } from "firebase/firestore";
 
 function SignIn() {
 	const { user } = useSelector((state) => state.mainReducer);

@@ -23,10 +23,13 @@ function OrderItem({ order }) {
 			</p>
 
 			<div className="orderaddress">
-				<h4>Contact Information</h4>
-				<p> Name: {order.name}.</p>
-				<p>Email: {order.email}.</p>
+				<h4>Shipping Address</h4>
+				<p>Name: {order.name}</p>
+				<p>Email: {order.email}</p>
+				<p>Phone: {order.phone}</p>
 				<p>Address: {order.address}</p>
+				<p>City: {order.city}</p>
+				<p>Country: {order.country}</p>
 			</div>
 
 			{order.cart.map((item, index) => {

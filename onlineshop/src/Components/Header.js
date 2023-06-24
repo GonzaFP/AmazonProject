@@ -8,12 +8,11 @@ import { auth } from "../firebase";
 import { EmptyCart, logout } from "../Contexts/dispatchContext";
 import { signOut } from "firebase/auth";
 import { db } from "../firebase";
-import { setDoc, doc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 function Header() {
 	const navigate = useNavigate();
 	const { cartItems, user } = useSelector((state) => state.mainReducer);
-	console.log(user);
 	const dispatch = useDispatch();
 	const number = cartItems?.reduce((Total, nextAmount) => {
 		return Total + nextAmount.qty;
@@ -21,13 +20,15 @@ function Header() {
 
 	const handleAuth = async () => {
 		if (user) {
-			await setDoc(doc(db, "cart", user?.id), {
-				cart: cartItems,
-				user: user,
-			});
+			if (cartItems.length > 0) {
+				await addDoc(collection(db, "cart"), {
+					cart: cartItems,
+					user: user,
+				});
+				dispatch(EmptyCart());
+			}
 			await signOut(auth);
 			dispatch(logout());
-			dispatch(EmptyCart());
 		}
 	};
 
