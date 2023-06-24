@@ -9,7 +9,7 @@ there is a check-out form to fill. This project was built with the aim of practi
 * Working with json-server.
 
 # Setup
-git clone https://github.com/GonzaFP/AmazonProject.git
-npm install
-npm run dev
-Pull requests are welcome.
+* git clone https://github.com/GonzaFP/AmazonProject.git
+* npm install
+* npm run dev
+* Pull requests are welcome.
